@@ -10,18 +10,18 @@ Step 1：打开终端（MacBook）或者命令提示符（Windows），切换到
 
 ```cd /Users/{your name}/Desktop/reports```
 
-![Step 1（以终端为例）](/Users/xiada/Downloads/python/md/md1.jpg)
+![Step 1（以终端为例）](md/md1.jpg)
 
 Step 2：输入以下代码运行脚本，根据提示输入需要提取的报告关键词和报告发布的起始年份，然后按回车提取研报。
 
 ```python3 reports.py```
 
-![Step 2（以终端为例）](/Users/xiada/Downloads/python/md/md2.jpg)
+![Step 2（以终端为例）](md/md2.jpg)
 
 Step 3：当窗口界面出现 *报告已经提取完成！* 时，切换到存储reports.py的文件夹，相应的Excel文件已生成。
 
-![Step 2（以终端为例）](/Users/xiada/Downloads/python/md/md3)
-![Step 2（以终端为例）](/Users/xiada/Downloads/python/md/md4)
+![Step 2（以终端为例）](md/md3)
+![Step 2（以终端为例）](md/md4)
 
 ### 3. 作者
 Github：@xd11997
