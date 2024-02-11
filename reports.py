@@ -120,6 +120,22 @@ def main():
     # 调用已写的2个函数分别提取199it和贝恩的报告
     scrape_reports_199it(search_keywords, start_year, headers, worksheet, written_combinations, count)
     scrape_reports_bain(search_keywords, start_year, headers, worksheet, written_combinations, count)
+    # 遍历工作表中的每一列
+    for column_cells in worksheet.columns:
+        max_length = 0
+        # 获取当前列的列号，column_cells[0] 表示当前列的第一个单元格，以便后续代码可以根据列号来调整列宽
+        column = column_cells[0].column
+        for cell in column_cells:
+            try:
+                if len(str(cell.value)) > max_length:
+                    max_length = len(cell.value)
+            except:
+                pass
+        # 为了有些额外的空间，使用1.2的因子
+        adjusted_width = (max_length +2) * 1.2
+        # worksheet.column_dimensions[column] 获取了指定列的维度信息，包括宽度等。然后，.width 属性被设置为 adjusted_width，即调整后的列宽。这样一来，工作表中该列的宽度就会根据最长单元格的内容自动调整为合适的大小，以确保内容完整显示。
+        column_letter = op.utils.get_column_letter(column)
+        worksheet.column_dimensions[column_letter].width = adjusted_width
     workbook.save(f"【{start_year}-至今】{'_'.join(search_keywords)}.xlsx")
 
 # 主函数调用
