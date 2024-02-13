@@ -13,12 +13,12 @@
  # 1.增加贝恩的数据 2.多线程并未加速，反而拖慢 3.『正在提取报告』会打印两遍 4.若先确定代码范围再展现进度，则严重拖慢运行速度，遂放弃
  # ---2024.1.29 update---
  # 1.已改变打印语句以显示大概的进度 2.输出Excel中增加报告时间列，显示发布日期 3.已尽可能使用正则表达式，2023作为起始年份的运行速度缩短到37秒
+ # ---2024.2.14 update---
+ # 优化：Excel自动适应列宽
 
-import time
 import openpyxl as op
 import requests
 from bs4 import BeautifulSoup
-import threading
 
 #记录代码开始的时间
 # start_time = time.time()
@@ -123,19 +123,18 @@ def main():
     # 遍历工作表中的每一列
     for column_cells in worksheet.columns:
         max_length = 0
-        # 获取当前列的列号，column_cells[0] 表示当前列的第一个单元格，以便后续代码可以根据列号来调整列宽
-        column = column_cells[0].column
+        # 获取当前列的名称，column_cells[0] 表示当前列的第一个单元格，以便后续代码可以根据列名称来调整列宽
+        column = column_cells[0].column_letter
         for cell in column_cells:
             try:
                 if len(str(cell.value)) > max_length:
-                    max_length = len(cell.value)
+                    max_length = len(str(cell.value))
             except:
                 pass
         # 为了有些额外的空间，使用1.2的因子
-        adjusted_width = (max_length +2) * 1.2
+        adjusted_width = (max_length +2) * 2
         # worksheet.column_dimensions[column] 获取了指定列的维度信息，包括宽度等。然后，.width 属性被设置为 adjusted_width，即调整后的列宽。这样一来，工作表中该列的宽度就会根据最长单元格的内容自动调整为合适的大小，以确保内容完整显示。
-        column_letter = op.utils.get_column_letter(column)
-        worksheet.column_dimensions[column_letter].width = adjusted_width
+        worksheet.column_dimensions[column].width = adjusted_width
     workbook.save(f"【{start_year}-至今】{'_'.join(search_keywords)}.xlsx")
 
 # 主函数调用
